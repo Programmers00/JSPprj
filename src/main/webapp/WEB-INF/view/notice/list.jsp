@@ -157,11 +157,15 @@
 						<legend class="hidden">공지사항 검색 필드</legend>
 						<label class="hidden">검색분류</label>
 						<select name="f">
-							<option  value="title">제목</option>
-							<option  value="writerId">작성자</option>
+							<!-- EL문과 삼항연산자를 이용해서 title일경우에는 선택, 아닐경우에는 빈문자열을 반환 -->
+							<option  ${(param.f == "title")?"selected":"" } value="title">제목</option>
+							<!-- EL문과 삼항연산자를 이용해서 writer_id일경우에는 선택, 아닐경우에는 빈문자열을 반환 -->
+							<!-- writerId라고 하면 데이터베이스내의 컬럼명에 맞지 않아서 오류가 발생한다. writer_id라는 컬럼명으로 맞춰준다. -->
+							<option ${(param.f == "writer_id")?"selected":"" } value="writer_id">작성자</option>
 						</select> 
 						<label class="hidden">검색어</label>
-						<input type="text" name="q" value=""/>
+						<input type="text" name="q" value="${param.q}"/>  <!-- url을 통해 전달: list?f=title&q=a -->
+						<!-- 쿼리스트링으로 있는 q라고 있는것을 출력해주라. -->
 						<input class="btn btn-search" type="submit" value="검색" />
 					</fieldset>
 				</form>

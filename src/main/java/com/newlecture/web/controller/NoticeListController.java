@@ -23,9 +23,25 @@ import com.newlecture.web.service.NoticeService;
 public class NoticeListController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//사용자가 어떤 검색기준으로 전달할 것인지, 임시변수에 저장
+		String field_ = request.getParameter("f");	//
+		//사용자가 검색을 위한 검색어를 입력, 임시변수에 저장
+		String query_ = request.getParameter("q");	
+		
+		/* 사용자가 전달하는 값이 null이 아닌경우에 대한 조건문*/
+		String field = "title";	//전달되지 않으면 기본값
+		if(field_ != null)
+			field = field_;
+		
+		String query = "";	//전달되지 않으면 기본값
+		if(query_ != null)
+			query = query_;
+		
 		
 		NoticeService service = new NoticeService();
-		List<Notice> list = service.getNoticeList(); // ctr+shift+O로 패키지 추가
+		/*3가지의 오버로드 함수중에서 field, query, page를 선택*/
+		//field는 옵션, null이 올 경우가 있기 때문에 조건문을 설정해야한다.
+		List<Notice> list = service.getNoticeList(field, query, 1); // ctr+shift+O로 패키지 추가
 		
 		request.setAttribute("list", list);
 		
